@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,13 +29,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CameraTheme {
-                mainUi()
+                MainUi()
             }
         }
         openCamera()
     }
     @Composable
-    fun mainUi(){
+    fun MainUi(){
         Column {
             Scaffold(
                 topBar = {
@@ -60,15 +59,14 @@ class MainActivity : ComponentActivity() {
                     }
                 },
                 floatingActionButtonPosition = FabPosition.End){
-                    paddingValues -> paddingValues
+
             }
         }
     }
     private fun openCamera() {
         getContent=registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback<ActivityResult>{
-                val data=it.data
+            ActivityResultCallback {
                 val bundle = it.data!!.extras
                 val imageUri: Uri
                 val bitmap: Bitmap = bundle!!.get("data") as Bitmap
